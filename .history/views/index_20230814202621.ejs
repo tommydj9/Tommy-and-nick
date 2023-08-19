@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desphixs - NodeJs Login and Register</title>
+
+
+    <style>
+
+    </style>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-white">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+                <h3>TRX STAKE</h3>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit">Logout</button>
+
+                </form>
+                </nav>
+            </div>
+        </header>
+        <button onclick="Send()">Stake</button>
+        <input id="amount" type="text" , placeholder="Amount:">
+
+        <!-- <footer class="mt-auto text-dark-50">
+            <p class="text-dark">Desphixs 2022 <a href="" class="text-dark">Copyright</a>, by <a href=""
+                    class="text-dark">@desphixs.vcom</a>.</p>
+        </footer> -->
+    </div>
+
+    <script>
+        function Send() {
+            alert('coao');
+            let account;
+            ethereum.request({ method: 'eth_requestAccounts' }.then(account => {
+                account = accounts[0]
+                console.log(account)
+            }));
+        }
+
+    </script>
+
+</body>
+
+</html>

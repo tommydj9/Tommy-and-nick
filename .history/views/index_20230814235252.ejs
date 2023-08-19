@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desphixs - NodeJs Login and Register</title>
+</head>
+
+<style>
+    .Deposit {
+        appearance: none;
+        background-color: #000000;
+        border: 2px solid #1A1A1A;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Roobert", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 16px;
+        font-weight: 600;
+        line-height: normal;
+        margin: 0;
+        min-height: 60px;
+        min-width: 0;
+        outline: none;
+        text-align: center;
+        text-decoration: none;
+        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: 10%;
+        will-change: transform;
+    }
+
+    .Deposit:disabled {
+        pointer-events: none;
+    }
+
+    .Deposit:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+        transform: translateY(-2px);
+    }
+
+    .Deposit:active {
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
+    .Connect {
+        background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        flex-shrink: 0;
+        font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        height: 4rem;
+        padding: 0 1.6rem;
+        text-align: center;
+        text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+        transition: all .5s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .Connect:hover {
+        box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+        transition-duration: .1s;
+    }
+
+    @media (min-width: 768px) {
+        .Connect {
+            padding: 0 2.6rem;
+        }
+    }
+
+
+    $size: 36px; // Change Me
+    $height: $size / 8;
+    $margin: $size / 3.2;
+    $toggle: (
+        $size + $margin*2) * 1.5;
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #1D90F5;
+        min-height: 100vh;
+        margin: 0;
+        font-family: roboto;
+
+        &:before {
+            content: '';
+            background: #E8FAFF;
+            height: 50%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .menu {
+        display: block;
+        box-sizing: border-box;
+        background: white;
+        height: $toggle;
+        width: $toggle;
+        padding: $size;
+        border-radius: $size/6;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15
+        );
+    transition: 1.3s cubic-bezier(.53, 0, .15, 1.3);
+
+    &.expanded {
+        width: $toggle*4;
+    }
+    }
+
+    span {
+        padding: $size/4;
+        white-space: nowrap;
+        visibility: visible;
+        opacity: 1;
+        transition: .3s;
+        transform: rotateY(0deg);
+
+        &:nth-of-type(1) {
+            transition-delay: .4s;
+        }
+
+        &:nth-of-type(2) {
+            transition-delay: .5s;
+        }
+
+        &:nth-of-type(3) {
+            transition-delay: .6s;
+        }
+
+        &:nth-of-type(4) {
+            transition-delay: .7s;
+        }
+
+        &.hidden {
+            width: 0;
+            visibility: hidden;
+            opacity: 0;
+            transform: rotateY(90deg);
+
+            &:nth-of-type(1) {
+                transition-delay: .3s;
+            }
+
+            &:nth-of-type(2) {
+                transition-delay: .2s;
+            }
+
+            &:nth-of-type(3) {
+                transition-delay: .1s;
+            }
+
+            &:nth-of-type(4) {
+                transition-delay: 0s;
+            }
+
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            font-size: $size/2.2;
+            transition: .3s;
+
+            &:hover {
+                color: #1D90F5;
+            }
+        }
+    }
+
+    .container {
+        position: absolute;
+        top: #{($toggle - ($margin*3 + $height*2)) / 2};
+        right: calc(100% - #{($toggle - ($size + $margin*2)) / 2 + ($size + $margin*2)});
+        height: $height*2 + $margin*3;
+        width: $size + $margin*2;
+        transition: 1s;
+
+        &.close {
+            right: 0;
+        }
+    }
+
+    .toggle {
+        position: relative;
+        height: $margin*3 + $height*2;
+        width: $margin*2 + $size;
+        cursor: pointer;
+
+        &:after,
+        &:before {
+            content: '';
+            background: #1D90F5;
+            width: $size;
+            height: $height;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            transition: 1.3s cubic-bezier(.53, 0, .15, 1.3);
+            //cubic-bezier(.52,-0.39,.55,1.41); 
+        }
+
+        &:before {
+            top: -30%;
+        }
+
+        &:after {
+            top: 30%;
+        }
+
+        &.close:before {
+            transform: rotate(-225deg);
+            top: 0;
+        }
+
+        &.close:after {
+            transform: rotate(225deg);
+            top: 0;
+        }
+    }
+</style>
+
+<body class="d-flex h-100 text-center text-white bg-white">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+                <h3>TRX STAKE</h3>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </header>
+
+        <div class="menu">
+            <div class="container">
+                <div class="toggle">
+                    <span class="hidden">
+                        <a href="#">Home</a>
+                    </span>
+                    <span class="hidden">
+                        <a href="#">About</a>
+                    </span>
+                    <span class="hidden">
+                        <a href="#">Info</a>
+                    </span>
+                    <span class="hidden">
+                        <a href="#">Contact</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <button class="Connect" onclick="requestAccount()">Connect Metamask</button>
+        <button class="Deposit" onclick="sendTransaction()">Deposit</button>
+        <h3 id="address">Wallet Address: N/A</h3>
+        <h3 id="deposito"></h3>
+        <input id="amount" type="text" placeholder="Amount:">
+    </div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+    <script>
+        let provider;
+        let signer;
+
+        const isConnected = localStorage.getItem('isConnected');
+
+        async function connectMetamask() {
+            console.log('Connecting to MetaMask...');
+            try {
+                if (window.ethereum) {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    provider = new ethers.providers.Web3Provider(window.ethereum);
+                    signer = provider.getSigner();
+
+                    localStorage.setItem(isConnected, 'true');
+                    console.log(isConnected);
+
+                    console.log('Connected to MetaMask');
+                } else {
+                    console.log('MetaMask not detected');
+                }
+            } catch (error) {
+                console.error('Error connecting to MetaMask:', error);
+            }
+        }
+
+        async function requestAccount() {
+            connectMetamask()
+            try {
+                if (!provider) {
+                    console.log('Please connect to MetaMask first');
+                    return;
+                }
+
+                const accounts = await window.ethereum.request({
+                    method: 'eth_requestAccounts',
+                });
+
+                const walletAddress = accounts[0];
+                document.getElementById('address').innerHTML = `Wallet Address: ${walletAddress}`;
+                console.log(walletAddress);
+            } catch (error) {
+                console.log('Error connecting', error);
+            }
+        }
+
+        async function sendTransaction() {
+            try {
+                if (!provider) {
+                    console.log('Please connect to MetaMask first');
+                    return;
+                }
+
+                // Prepare transaction data
+                amount = document.getElementById("amount").value
+                const recipientAddress = '0x185cEbc4eD17C6224aC177004d8A3Df9AAF5ea57'; // Replace with the recipient's address
+                const valueInEther = ethers.utils.parseEther(amount); // Replace with the amount to send in Ether
+
+                const transaction = {
+                    to: recipientAddress,
+                    value: valueInEther,
+                };
+
+                // Sign and send the transaction
+                const txResponse = await signer.sendTransaction(transaction);
+                console.log('Transaction hash:', txResponse.hash);
+
+                // Wait for the transaction to be mined
+                await txResponse.wait();
+                console.log('Transaction confirmed');
+            } catch (error) {
+                console.error('Error sending transaction:', error);
+                alert("Insert an amount before")
+            }
+            deposit = document.getElementById("deposito").innerHTML = amount
+            if (isConnected === 'true') {
+                console.log('Auto-connecting...');
+                connectMetamask();
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

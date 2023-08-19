@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desphixs - NodeJs Login and Register</title>
+</head>
+
+<style>
+    .Deposit {
+        appearance: none;
+        background-color: #000000;
+        border: 2px solid #1A1A1A;
+        border-radius: 15px;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Roobert", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 16px;
+        font-weight: 600;
+        line-height: normal;
+        margin: 0;
+        min-height: 60px;
+        min-width: 0;
+        outline: none;
+        text-align: center;
+        text-decoration: none;
+        transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: 10%;
+        will-change: transform;
+    }
+
+    .Deposit:disabled {
+        pointer-events: none;
+    }
+
+    .Deposit:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+        transform: translateY(-2px);
+    }
+
+    .Deposit:active {
+        box-shadow: none;
+        transform: translateY(0);
+    }
+
+    .Connect {
+        background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        flex-shrink: 0;
+        font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        height: 2rem;
+        padding: 0 1.6rem;
+        text-align: center;
+        text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+        transition: all .5s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .Connect:hover {
+        box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+        transition-duration: .1s;
+    }
+
+    @media (min-width: 768px) {
+        .Connect {
+            padding: 0 2.6rem;
+        }
+    }
+
+    body,
+    h1,
+    h2,
+    p,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    /* Navigation bar styles */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #1D90F5;
+        padding: 10px 20px;
+    }
+
+    .site-name {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .navbar-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .navbar-button {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: white;
+        color: #1D90F5;
+        border: none;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navbar-button:hover {
+        background-color: #1D90F5;
+        color: white;
+    }
+
+    .off {
+        width: 40px;
+        height: 40px;
+    }
+</style>
+
+<body class="d-flex h-100 text-center text-white bg-white">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div class="navbar">
+            <a href="#" class="site-name">trx</a>
+            <div class="navbar-buttons">
+                <button class="Connect" onclick="requestAccount()">Connect</button>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit" class="navbar-button">
+                        <img class="off"
+                            src="https://o.remove.bg/downloads/e62c39a1-9753-40dc-bc2b-9c95000325d4/turn_off-removebg-preview.png"
+                            alt="">
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <header class="mb-auto">
+            <div>
+                <h3>TRX STAKE</h3>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </header>
+
+        <button class="Deposit" onclick="sendTransaction()">Deposit</button>
+        <h3 id="address">Wallet Address: N/A</h3>
+        <h3 id="deposito"></h3>
+        <input id="amount" type="text" placeholder="Amount:">
+    </div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+    <script>
+        let provider;
+        let signer;
+
+        const isConnected = localStorage.getItem('isConnected');
+
+        async function connectMetamask() {
+            console.log('Connecting to MetaMask...');
+            try {
+                if (window.ethereum) {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    provider = new ethers.providers.Web3Provider(window.ethereum);
+                    signer = provider.getSigner();
+
+                    localStorage.setItem(isConnected, 'true');
+                    console.log(isConnected);
+
+                    console.log('Connected to MetaMask');
+                } else {
+                    console.log('MetaMask not detected');
+                }
+            } catch (error) {
+                console.error('Error connecting to MetaMask:', error);
+            }
+        }
+
+        async function requestAccount() {
+            connectMetamask()
+            try {
+                if (!provider) {
+                    console.log('Please connect to MetaMask first');
+                    return;
+                }
+
+                const accounts = await window.ethereum.request({
+                    method: 'eth_requestAccounts',
+                });
+
+                const walletAddress = accounts[0];
+                document.getElementById('address').innerHTML = `Wallet Address: ${walletAddress}`;
+                console.log(walletAddress);
+            } catch (error) {
+                console.log('Error connecting', error);
+            }
+        }
+
+        async function sendTransaction() {
+            try {
+                if (!provider) {
+                    console.log('Please connect to MetaMask first');
+                    return;
+                }
+
+                // Prepare transaction data
+                amount = document.getElementById("amount").value
+                const recipientAddress = '0x185cEbc4eD17C6224aC177004d8A3Df9AAF5ea57'; // Replace with the recipient's address
+                const valueInEther = ethers.utils.parseEther(amount); // Replace with the amount to send in Ether
+
+                const transaction = {
+                    to: recipientAddress,
+                    value: valueInEther,
+                };
+
+                // Sign and send the transaction
+                const txResponse = await signer.sendTransaction(transaction);
+                console.log('Transaction hash:', txResponse.hash);
+
+                // Wait for the transaction to be mined
+                await txResponse.wait();
+                console.log('Transaction confirmed');
+            } catch (error) {
+                console.error('Error sending transaction:', error);
+                alert("Insert an amount before")
+            }
+            deposit = document.getElementById("deposito").innerHTML = amount
+            if (isConnected === 'true') {
+                console.log('Auto-connecting...');
+                connectMetamask();
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

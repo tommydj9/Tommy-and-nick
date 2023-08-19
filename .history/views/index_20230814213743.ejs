@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Desphixs - NodeJs Login and Register</title>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-white">
+    <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+                <h3>TRX STAKE</h3>
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </header>
+        <button class="enableEthereumButton">Connect to Metamask</button>
+        <button onclick="requestAccount()">Stake</button>
+        <h3 id="address">walletAddress.....</h3>
+        <input id="amount" type="text" placeholder="Amount:">
+    </div>
+
+    <script>
+        async function requestAccount() {
+            import { useState } from 'react'
+
+            async function requestAccount() {
+
+                const [walletAddress, setWalletAddress] = useState("");
+                console.log('Requesting account')
+
+                if (window.ethereum) {
+                    console.log("MetaMask detected")
+
+                    try {
+                        const accounts = await window.ethereum.request({
+                            method: "eth_requestAccounts",
+                        });
+
+                        setWalletAddress(accounts[0])
+
+                        const walletAddress = accounts[0];
+                        document.getElementById("address").innerHTML = walletAddress;
+
+                    } catch (error) {
+                        console.log("Error connecting", error);
+                    }
+
+                } else {
+                    console.log("MetaMask not detected");
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
