@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+/* Global Styles */
+
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        }
+
+    a {
+        text-decoration: none;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    /* Header */
+
+    header {
+        background-color: #333;
+        color: #fff;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .logo {
+    display: flex;
+    align-items: center;
+    }
+
+    .logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 0.5rem;
+    }
+
+    nav ul {
+    display: flex;
+    }
+
+    nav ul li {
+    margin-right: 1.5rem;
+    }
+
+    nav ul li .navLink {
+    color: rgb(70, 123, 123);
+    }
+
+    nav ul li .navLink:hover {
+    color: rgb(59, 97, 97);
+    }
+
+    nav ul li:last-child {
+    margin-right: 0;
+    }
+
+    nav ul li button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #fff;
+    color: #333;
+    border-radius: 2rem;
+    cursor: pointer;
+    }
+
+    nav ul li button:hover {
+    background-color: #f0f0f0;
+    }
+
+    /* Main */
+
+    main {
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+
+    .hero {
+    background-color: #eee;
+    padding: 5rem 1rem;
+    text-align: center;
+    }
+
+    .hero h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    }
+
+    .hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    }
+
+    .hero button {
+    padding: 0.5rem 2rem;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 2rem;
+    cursor: pointer;
+    }
+
+    .hero button:hover {
+    background-color: #555;
+    }
+
+    .features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 4rem 0;
+    }
+
+    .feature {
+    flex-basis: calc(33.33% - 1rem);
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    }
+
+    .feature:hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+    }
+
+    .plan:hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+    }
+
+    .feature img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+    }
+
+    .feature p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+    }
+
+    .pricing {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 4rem 0;
+    }
+
+    .plan {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    flex-basis: calc(33.33% - 1rem);
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    }
+
+    .price {
+    text-align: center;
+    }
+
+    .btnPlan {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    }
+
+    .btnPlan:hover {
+    background-color: #bebebe;
+    }
+
+    .getStarted {
+    border: black;
+    border-radius: 5rem;
+    background-color: #333;
+    padding: 0.9rem;
+    margin: 0.6rem;
+    padding-left: 1.6rem;
+    padding-right: 1.5rem;
+    color: #f0f0f0;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .footer-basic {
+    padding:40px 0;
+    background-color:#ffffff;
+    color:#4b4c4d;
+    }
+
+    .footer-basic ul {
+    padding:0;
+    list-style:none;
+    text-align:center;
+    font-size:18px;
+    line-height:1.6;
+    margin-bottom:0;
+    }
+
+    .footer-basic li {
+    padding:0 10px;
+    }
+
+    .footer-basic ul a {
+    color:inherit;
+    text-decoration:none;
+    opacity:0.8;
+    }
+
+    .footer-basic ul a:hover {
+    opacity:1;
+    }
+
+    .footer-basic .social {
+    text-align:center;
+    padding-bottom:25px;
+    }
+
+    .footer-basic .social > a {
+    font-size:24px;
+    width:40px;
+    height:40px;
+    line-height:40px;
+    display:inline-block;
+    text-align:center;
+    border-radius:50%;
+    border:1px solid #ccc;
+    margin:0 8px;
+    color:inherit;
+    opacity:0.75;
+    }
+
+    .footer-basic .social > a:hover {
+    opacity:0.9;
+    }
+
+    .footer-basic .copyright {
+    margin-top:15px;
+    text-align:center;
+    font-size:13px;
+    color:#aaa;
+    margin-bottom:0;
+    }
+
+    .list-inline-item{
+    display:inline-block;
+    }
+
+    /* Credit to https://epicbootstrap.com/snippets/footer-basic */
+</style>
+
+<body>
+    <header>
+
+        <nav>
+            <div class="logo">
+                <img src="logo.png" alt="Crypto Site Logo">
+                <h1>Finance Blog</h1>
+            </div>
+            <ul>
+                <li><a href="#" class="navLink">Home</a></li>
+                <li><a href="#" class="navLink">About</a></li>
+                <li><a href="#" class="navLink">Services</a></li>
+                <li><a href="#" class="navLink">Contact</a></li>
+                <li><a href="/login">Register</a>Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Welcome to this Finance Blog</h2>
+            <p>Here, you can approciate to the financial world with our fantastic FREE courses</p>
+            <a class='getStarted' href="#section2">Get Started</a>
+        </section>
+
+
+
+        <section class="features">
+            <div class="feature">
+                <img src="feature-1.png" alt="Feature 1 Icon">
+                <h3>Secure Transactions</h3>
+                <p>Our platform uses state-of-the-art encryption to ensure the safety and security of your transactions.
+                </p>
+            </div>
+            <div class="feature">
+                <img src="feature-2.png" alt="Feature 2 Icon">
+                <h3>24/7 Support</h3>
+                <p>Our team of experts is available around the clock to assist you with any questions or issues you may
+                    have.</p>
+            </div>
+            <div class="feature">
+                <img src="feature-3.png" alt="Feature 3 Icon">
+                <h3>Easy to Use</h3>
+                <p>Our platform is designed to be user-friendly, making it easy for anyone to buy, sell, and trade
+                    cryptocurrencies.</p>
+            </div>
+        </section>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
